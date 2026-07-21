@@ -99,7 +99,7 @@ resource "aws_s3_bucket" "website_bucket" {
   bucket = "cloud-resume-dinhngocminh-2026"
 }
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = "s3-cloudfront-oac"
+  name                              = "s3-cloudfront-oac-resume-2026"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
