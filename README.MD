@@ -19,23 +19,9 @@ An automated, serverless backend infrastructure built for the **Cloud Resume Cha
 ## 📐 System Architecture
 
 ```mermaid
-flowchart TD
-    classDef client fill:#E5F6FF,stroke:#0078D4,stroke-width:2px,color:#000;
-    classDef cdn fill:#FFF0F5,stroke:#FF1493,stroke-width:2px,color:#000;
-    classDef storage fill:#FFF8DC,stroke:#DAA520,stroke-width:2px,color:#000;
-    classDef api fill:#E6F9E6,stroke:#2E8B57,stroke-width:2px,color:#000;
-    classDef compute fill:#FFF5EE,stroke:#FF4500,stroke-width:2px,color:#000;
-    classDef db fill:#F3E5F5,stroke:#8A2BE2,stroke-width:2px,color:#000;
-
-    Client["👤 User Browser"]:::client
-    CF["🌐 Amazon CloudFront<br/>(Global CDN)"]:::cdn
-    S3["🪣 Amazon S3<br/>(Static Website Hosting)"]:::storage
-    APIGW["⚡ API Gateway<br/>(HTTP API Routes)"]:::api
-    Lambda["🚀 AWS Lambda<br/>(Python 3.9 Service)"]:::compute
-    DDB["🗄️ Amazon DynamoDB<br/>(Visitor Counter Table)"]:::db
-
-    Client -->|1. Request Resume Page| CF
-    CF -->|2. Fetch Assets via OAC| S3
-    Client -->|3. Fetch / Update Visitor Count| APIGW
-    APIGW -->|4. Trigger Lambda Event| Lambda
-    Lambda -->|5. Get & Increment Counter| DDB
+graph TD
+    Client[📱 Client Browser] -->|1. Request Resume Page| CF[🌐 AWS CloudFront CDN]
+    CF -->|2. Fetch Static Files| S3[🪣 AWS S3 Bucket]
+    Client -->|3. Fetch Visitor Count via JS| APIGW[🌉 AWS API Gateway]
+    APIGW -->|4. Invoke Function| Lambda[⚡ AWS Lambda Python]
+    Lambda -->|5. Get & Increment Count| Dynamo[🗄️ AWS DynamoDB]
